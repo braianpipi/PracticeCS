@@ -1,0 +1,18 @@
+# Carpetas de Unity que NO se suben
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+
+# Archivos de Visual Studio que NO se suben
+.vs/
+*.csproj
+*.sln
+
+# Configuración específica del usuario
+*.userprefs
+*.pidb
