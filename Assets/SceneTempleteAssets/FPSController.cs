@@ -28,7 +28,7 @@ public class FPSController : MonoBehaviour
     void Update()
     {
         MoverJugador();
-        MoverCamara();
+        MoverCamaraMousse();
     }
 
     void MoverJugador()
@@ -72,7 +72,7 @@ public class FPSController : MonoBehaviour
 
     }
 
-    void MoverCamara()
+    void MoverCamaraMousse()
     {
         //Aca tomamos a traves de comandos preseteados el valor que toman el movimiento del mouse de manera horizontal.
         //float mouseX = Input.GetAxis("Mouse X");
@@ -84,18 +84,40 @@ public class FPSController : MonoBehaviour
         float mouseX = Input.GetAxis("Mouse X") * mouseSensitivityX;
         float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivityY; 
 
+
+        AplicarRotacion (mouseX, mouseY);
+
+
+
         //Clamp es un método para limitar valores
         //Mathf.Clamp(valor, minimo, maximo);
         //Aca lo puso en menos para que reste al valor y no se pase;
-        verticalRotation -= mouseY;
-        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
+        //verticalRotation -= mouseY;
+        //verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
 
 
         //localRotation es una propiedad de Unity muy usada cuando querés controlar la rotación de un objeto respecto a su padre dentro de la jerarquía.
         //Unity internamente usa quaternions para manejar rotaciones (porque son más estables y evitan errores como el gimbal lock). Pero para que sea más cómodo para vos, te deja usar Euler.
         // Euler se refiere a una forma de representar rotaciones en 3D usando tres ángulos: uno para cada eje (X, Y y Z).
-        camTransform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+        //camTransform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
         //que en Vector3.up lo que hace es que trabaja sobre la linea Y , es decir (0,1,0)
-        transform.Rotate(Vector3.up * mouseX);
+        //transform.Rotate(Vector3.up * mouseX);
     }
+
+    void AplicarRotacion(float horizontal, float vertical)
+    {
+        verticalRotation -= vertical; //Invierte el mouse
+        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
+
+        //Rotacion Vertical
+        camTransform.localRotation = Quaternion.Euler(verticalRotation, 0, 0);
+
+        //Rotacion Horizontal
+        transform.Rotate(Vector3.up * horizontal);
+
+
+    }
+
+
+
 }
