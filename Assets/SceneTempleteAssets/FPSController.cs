@@ -11,18 +11,24 @@ public class FPSController : MonoBehaviour
     // Componente que permite mover el personaje sin usar física real.
     // Usa .Move() para desplazarse y detectar colisiones automáticamente.
     public CharacterController controller;
-    
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+
+    //Esto permite que aparezca un pseudo titulo en el instructor para referenciar un valor que pueda variar
+    [Header("Movimiento de Camara")]
+    //3 cosas necesito para mover la camara, una referencia hacia donde esta la camara, otra la sensibilidad del mouse y la ultima es hasta donde voy a poder rotar la camara con el mouse. 
+    public Transform camTransform;
+    //Aca se agrega la variable que va a ir variando desde el inspector
+    public float mouseSensitivityX = 2f ;
+    public float mouseSensitivityY = 2f;
+    //esta variable es para que gire verticalmente el personaje la vision y las variables que son privadas no aparecen en el inspector.
+    private float verticalRotation = 0f;
+
+
 
     // Update is called once per frame
     void Update()
     {
         MoverJugador();
+        MoverCamara();
     }
 
     void MoverJugador()
@@ -64,5 +70,32 @@ public class FPSController : MonoBehaviour
         //Para que vaya hacia abajo se pone menos al up. Y para retroseder el menos al forward
         //Vector2 movimiento = -transform.up * movX + -tramsform.forward * movY;
 
+    }
+
+    void MoverCamara()
+    {
+        //Aca tomamos a traves de comandos preseteados el valor que toman el movimiento del mouse de manera horizontal.
+        //float mouseX = Input.GetAxis("Mouse X");
+        //Aca tomamos a traves de comandos preseteados el valor que toman el movimiento del mouse de manera vertical.
+        //float mouseY = Input.GetAxis("Mouse Y");
+
+
+        //Aca lo coloco pero ya multiplicado por la sensilibidad que seteamos desde el innspector:
+        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivityX;
+        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivityY; 
+
+        //Clamp es un método para limitar valores
+        //Mathf.Clamp(valor, minimo, maximo);
+        //Aca lo puso en menos para que reste al valor y no se pase;
+        verticalRotation -= mouseY;
+        verticalRotation = Mathf.Clamp(verticalRotation, -90f, 90f);
+
+
+        //localRotation es una propiedad de Unity muy usada cuando querés controlar la rotación de un objeto respecto a su padre dentro de la jerarquía.
+        //Unity internamente usa quaternions para manejar rotaciones (porque son más estables y evitan errores como el gimbal lock). Pero para que sea más cómodo para vos, te deja usar Euler.
+        // Euler se refiere a una forma de representar rotaciones en 3D usando tres ángulos: uno para cada eje (X, Y y Z).
+        camTransform.localRotation = Quaternion.Euler(verticalRotation, 0f, 0f);
+        //que en Vector3.up lo que hace es que trabaja sobre la linea Y , es decir (0,1,0)
+        transform.Rotate(Vector3.up * mouseX);
     }
 }
