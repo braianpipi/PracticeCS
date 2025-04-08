@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -22,6 +23,13 @@ public class FPSController : MonoBehaviour
     //esta variable es para que gire verticalmente el personaje la vision y las variables que son privadas no aparecen en el inspector.
     private float verticalRotation = 0f;
 
+    //Detectar el movimiento del Touch
+
+    //lastTouchPosition es la ultima posicion que toque y lo guarda en la variable vector
+    private Vector2 lastTouchPosition;
+    // Con esta variable detecta si esta tocando la pantalla. 
+    private bool isTouching = false;
+
 
 
     // Update is called once per frame
@@ -29,6 +37,7 @@ public class FPSController : MonoBehaviour
     {
         MoverJugador();
         MoverCamaraMousse();
+        MoverCamaraTouch();
     }
 
     void MoverJugador()
@@ -104,6 +113,66 @@ public class FPSController : MonoBehaviour
         //transform.Rotate(Vector3.up * mouseX);
     }
 
+    void MoverCamaraTouch()
+    {
+        //TAP :1 Toque en la pantalla se conoce como TAP
+        //DRAG :cuando mantenes apretado y arrastras el touch por la pantalla
+        //SWIPE : cuando haces un dezlizamiento corto ( un drag corto)
+        // RELEASE / ENDED : cuando dejan de tocar la pantalla 
+
+
+        //GetTouch(0) Es el primer toque que tiene la pantalla y se guarda en la variable touch que a la vez es un tipo de variable Touche en Unity. Es decir guarda informacion sobre el primer toque, si vos queres tomar informacion sobre el segundo deberias guardarlo en una variable nueva, por ejemplo Touch touch2 = Input.GetTouch(1); Una vez que soltas la pantalla vuelve el conteo a 0.
+
+        Touch touch = Input.GetTouch(0);
+        //Debug.Log("primer touch en x " + touch.position.x);
+        //Debug.Log("primer touch en y " + touch.position.y);
+
+        //Pregunta si acabo de tocar la pantalla
+        //TouchPhase devuelve en que etapa del toque se encuentra el dedo del usuario.
+        //TouchPhase.Began      // El dedo tocó la pantalla por primera vez.
+        //TouchPhase.Moved      // El dedo se está moviendo sobre la pantalla.
+        //TouchPhase.Stationary // El dedo sigue en la pantalla, pero sin moverse.
+        //TouchPhase.Ended      // El dedo se levantó de la pantalla.
+        //TouchPhase.Canceled   // El sistema canceló el toque (por una interrupción o error).
+        if (touch.phase == TouchPhase.Began)
+        //touch.phase es la propiedad que accedés en un Touch para saber en qué fase está ese toque.
+        //Es decir compara si en la fase del touch que esta es igual a la inicial (Began)
+        {
+            //Quiero que guardes la ultima posicion que tocaste 
+            lastTouchPosition = touch.position;
+            isTouching = true;
+        }
+        //Pregunta si el dedo que esta en la pantalla se esta moviendo en este momento .
+        else if(touch.phase == TouchPhase.Moved && isTouching)
+        {
+            //Mover camara se le agrega el 0.1f para que sea mas gradual el movimiento y no tan brusco.
+            //touch.deltaPosition te dice cuánto se movió el dedo desde el último frame.
+            //Touch touch = Input.GetTouch(0);
+            //Vector2 desplazamiento = touch.deltaPosition
+            float posX = touch.deltaPosition.x * mouseSensitivityX * 0.1f;
+            float posY = touch.deltaPosition.y * mouseSensitivityY * 0.1f;
+            
+            AplicarRotacion(posX, posY);
+        }
+        //Pregunta si el dedo dejo de tocar la pantalla
+        else if (touch.phase == TouchPhase.Ended && isTouching)
+        {
+            
+            isTouching = false;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+    }
     void AplicarRotacion(float horizontal, float vertical)
     {
         verticalRotation -= vertical; //Invierte el mouse

@@ -2,20 +2,14 @@
 
 Este es un proyecto básico en Unity creado con fines educativos para comprender las diferencias entre los métodos `Update()` y `FixedUpdate()`, y su aplicación práctica en el movimiento de objetos físicos y de cámara.
 
-## 🧠 Objetivos del proyecto
+## ✅ Funcionalidades implementadas
 
-- Entender el ciclo de vida de los métodos de Unity.
-- Aplicar `Update()` para animaciones y lógica general.
-- Aplicar `FixedUpdate()` para físicas y fuerzas.
-- Implementar movimiento de cámara en primera persona.
-- Practicar el uso de `Rigidbody` y `Transform`.
-
-## 🧩 Funcionalidades
-
-- Movimiento de esferas usando `Translate` y `AddForce`.
-- Comparación entre `Update()` vs `FixedUpdate()`.
-- Movimiento de cámara controlado con teclado.
-- Comentarios en el código explicando cada parte.
+- Movimiento de esferas utilizando `transform.Translate` y `Rigidbody.AddForce`.
+- Comparativa práctica entre los métodos `Update()` y `FixedUpdate()` para el control de física.
+- Manejo de rotaciones con `transform.localRotation` y ángulos en `Euler`.
+- Agregado de un sistema de control de cámara desde dispositivos móviles:
+  - Permite mover la cámara arrastrando el dedo sobre la pantalla.
+  - Utiliza `TouchPhase.Moved` y `deltaPosition` para capturar la dirección del gesto.
 
 ## 🛠️ Tecnologías usadas
 
