@@ -37,7 +37,9 @@ public class FPSController : MonoBehaviour
     {
         MoverJugador();
         MoverCamaraMousse();
-        MoverCamaraTouch();
+        //Este condicional es para ver si toma touch en pantalla.
+        if (Input.touchCount > 0)
+            MoverCamaraTouch();
     }
 
     void MoverJugador()
@@ -160,18 +162,6 @@ public class FPSController : MonoBehaviour
             
             isTouching = false;
         }
-
-
-
-
-
-
-
-
-
-
-
-
     }
     void AplicarRotacion(float horizontal, float vertical)
     {
