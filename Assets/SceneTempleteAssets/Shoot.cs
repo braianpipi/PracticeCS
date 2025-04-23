@@ -28,13 +28,21 @@ public class Shoot : MonoBehaviour
             //Instantiate(objetoOriginal); // Solo clona el objeto
             //Instantiate(objetoOriginal, posicion, rotacion); // Clona en un lugar específico
             //Es decir cuando ejecuto el intantiate me crea la bala en el punto que le digo y con la rotacion .
-            Instantiate(prefabBala, spawnPoint.position, spawnPoint.rotation);
- 
+            //Instantiate(prefabBala, spawnPoint.position, spawnPoint.rotation);
+
             //En el inspector se agrega un objeto vacio(ObjectEmpty) a la camara con el nombre spawnpoint y se lo coloca un poco por delante del player. Desde aca es de donde saldrian las balas.En el mismo inspector se le adjudica el objeto vacio al spawnpoint solicitado en el inspector .
             // Creo la bala en el inspector en objeto 3D, creo una carpeta Prefab, cargo la bala ahi , la borro de la scena y despues la cargo en el inspector donde pide el elemento el script shoot.
 
+            //Vamos a utilizar el metodo pool de objetos
+            //Para esto solo le decimos al pool que las active
+            //¡Implementacion del pool de objetos!
+            GameObject objeto = ObjectPooler.SharedInstance.GetPooledObject(ObjectType.Bala);
+            objeto.transform.position = spawnPoint.position;
+            objeto.transform.rotation = spawnPoint.rotation;
+            //
+            objeto.SetActive(true);
 
-
+            //Si activamos el Should Expand en el inspector permite que se generen mas objetos una vez alcanzado el limite del pool 
 
         }
 

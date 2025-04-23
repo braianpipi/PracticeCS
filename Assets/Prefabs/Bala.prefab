@@ -267,6 +267,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocidadBala: 10
   vidaBala: 5
+  efectoExplosion: {fileID: 4231024775987386681, guid: 1c76fc1fb74f6fb4b9a6c23832500386, type: 3}
 --- !u!54 &-5685918370932871980
 Rigidbody:
   m_ObjectHideFlags: 0
