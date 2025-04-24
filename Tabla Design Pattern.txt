@@ -1,0 +1,23 @@
+Categoría | Patrón | Breve Descripción
+Creational (Creación) | Factory Method | Crea objetos según una interfaz común.
+ | Abstract Factory | Crea familias de objetos relacionados sin especificar sus clases concretas.
+ | Builder | Construye un objeto paso a paso, útil para objetos complejos.
+ | Prototype | Clona objetos existentes para crear nuevos.
+Structural (Estructura) | Adapter | Permite que interfaces incompatibles trabajen juntas.
+ | Decorator | Agrega funcionalidades a un objeto dinámicamente.
+ | Bridge | Separa una abstracción de su implementación.
+ | Composite | Trata objetos individuales y composiciones de manera uniforme.
+ | Facade | Proporciona una interfaz simple a un sistema complejo.
+ | Flyweight | Comparte objetos para reducir el uso de memoria.
+ | Proxy | Controla el acceso a otro objeto.
+Behavioral (Comportamiento) | Observer | Notifica a múltiples objetos sobre un cambio de estado.
+ | Chain of Responsibility | Pasa una petición a lo largo de una cadena de receptores.
+ | Command | Encapsula una solicitud como un objeto.
+ | Interpreter | Interpreta sentencias en un lenguaje.
+ | Iterator | Permite recorrer elementos de una colección sin exponer su estructura.
+ | Mediator | Coordina la comunicación entre objetos.
+ | Strategy | Define una familia de algoritmos y los hace intercambiables.
+ | Memento | Guarda y restaura el estado de un objeto.
+ | State | Permite que un objeto altere su comportamiento cuando cambia su estado.
+ | Template Method | Define el esqueleto de un algoritmo, dejando pasos a subclases.
+ | Visitor | Permite agregar operaciones a objetos sin modificarlos.
