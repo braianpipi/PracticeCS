@@ -1,0 +1,44 @@
+Tipos de Audio: 
+-Musica : musicalizacion del juego para ambientacion
+
+-SFX: efectos de sonido que son generados a traves de acciones(disparos, caidas, saltos, poderes, etcetera)
+
+-Ambiente: sonidos que recrean un ambiente especifico del juego, cominados en un solo track que se repite(sonids de una ciudad, un bosque, una battalla, etc)
+
+
+Unity tiene dos maneras de manejar sonido :
+- Sonido Source (algo que emite sonido)
+- Sonido Listener (algo que recibe el sonido)(este viene por defecto en las camaras, se encuentra en el inspector como parte de sus componentes.)
+
+Para el audio source se crea un objeto y se lo agrega como componente.
+Caracteristicas del Audio Source:
+
+Audio Resource : contiene el TIPO de audio que va generar el objeto
+
+Output :Ruta del Audio Mixer Group donde se enviará el audio para mezclar o procesar. 
+
+Mute:Silencia completamente el audio (aunque siga reproduciendo internamente).
+
+Bypass Effects:Ignora efectos de audio aplicados directamente al Audio Source (como filtros).
+
+Bypass Listener Effects: Ignora los efectos aplicados al Audio Listener (como eco global o efectos de cámara).
+
+Bypass Reverb Zones:Ignora las zonas de reverberación del entorno (útil para sonido seco).
+
+Play on awake: Reproduce automáticamente el audio cuando la escena arranca.
+
+Loop:Repite el audio continuamente una vez que termina.
+
+Priority:Define qué tan importante es el audio (0 = más importante; 256 = menos), útil si hay límite de canales.
+
+Volume: Controla el volumen del audio (0 = silencio, 1 = volumen completo).
+
+Pitch: Cambia la velocidad y tono del audio (1 = normal, <1 más grave, >1 más agudo/rápido).
+
+Stereo Pan:Mueve el sonido entre el canal izquierdo (-1) y derecho (1).
+
+Spatial Blend:Mezcla entre sonido 2D (no espacial) y 3D (afectado por posición y distancia).
+
+Reverb Zone Mix: Controla cuánto influye el efecto de Reverb Zone en este audio (0 = nada, 1 = completo).
+
+

@@ -19,6 +19,9 @@ public class Shoot : MonoBehaviour
             //Este metodo lo que haces es crear la bala en el punto exacto DESDE DONDE la voy a disparar
             DispararBala();
 
+            //Aca se agrega el singleton de sonido
+            //Se instancia el singleton y en el PlaySound se pasan los parametros (el tipo de sonido , el volumen)
+            SoundManager.instance.PlaySound(SoundType.DISPARO_1, 2f);
         }
 
 
