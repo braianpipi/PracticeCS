@@ -8,7 +8,7 @@ public class Bala : MonoBehaviour
     public float velocidadBala = 10f;
     public float vidaBala = 5f;
     //Aca genero el objeto para el Instiate del efecto de explosion
-    public GameObject efectoExplosion;
+    //public GameObject efectoExplosion;
     
 
     //Para trabajar la forma de la bala utilizo boton izquierdo -> Efects -> Trail : Aca modifica la curva de Trail Renderer y mueve el eje hacia los costados , luego le agrega color. Le cambia el material y le pone uno default-line.Le baja el tiempo de duracion .
@@ -41,7 +41,7 @@ public class Bala : MonoBehaviour
     }
 
     //Metodo de Unity para que detectar si la bala colisiona con algo
-    private void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         //Metodo de Unity para si coliciona con algo se va autodestruir
         //Para que la bala puede detectar la colision tiene que tener una propiedad fisica que es le rigidBody se lo agrega desde el inspector y se pone que no use la gravedad.
@@ -67,10 +67,15 @@ public class Bala : MonoBehaviour
         gameObject.SetActive(false);
 
 
-        GameObject efecto = ObjectPooler.SharedInstance.GetPooledObject(ObjectType.Destello);
+        //GameObject efecto = ObjectPooler.SharedInstance.GetPooledObject(ObjectType.Destello);
+        //efecto.transform.position = collision.contacts[0].point;
+        //efecto.transform.rotation = Quaternion.LookRotation(collision.contacts[0].normal);
+        //efecto.SetActive(true);
+        GameObject efecto = ObjectPooler.SharedInstance.GetPooledObject(ObjectType.efectoSangre);
         efecto.transform.position = collision.contacts[0].point;
         efecto.transform.rotation = Quaternion.LookRotation(collision.contacts[0].normal);
         efecto.SetActive(true);
+        //Aclaracion para poder instanciar el sonido en el efecto de particulas , hay que agregarlo al pool de objetos del inspector, a su vez asociarlo con la llamada de cateagorias cargadas en el soundmanager.
 
         SoundManager.instance.PlaySound(SoundType.IMPACTO_1, 1f);
     }

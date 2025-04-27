@@ -14,7 +14,7 @@ public enum ObjectType
     PowerUp,
     efectoTierra,
     efectoFuego,
-    Destello
+    efectoSangre
 }
 
 
