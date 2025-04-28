@@ -193,3 +193,6 @@ Es clave verificar que el modelo se vea igual en el motor final y no presente er
 
 Usualmente se usan .fbx o .obj -
 
+LOD es clave para mejorar el rendimiento sin sacrificar mucho la calidad visual,
+adaptando la complejidad del modelo según la proximidad a la cámara.
+Es una técnica que se usa especialmente en videojuegos y simuladores de grandes mundos abiertos.
