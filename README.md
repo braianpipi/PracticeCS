@@ -59,4 +59,3 @@ Probar el movimiento de las esferas, el disparo de balas y las colisiones con ef
 Leer los comentarios dentro del código para entender el flujo de la implementación.
 
 💡 Este proyecto es ideal para quienes están aprendiendo Unity y desean comprender cómo gestionar la física, la cámara, el disparo de objetos, la gestión de recursos y la optimización del rendimiento en un juego.
-
