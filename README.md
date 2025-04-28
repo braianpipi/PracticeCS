@@ -54,4 +54,4 @@ Este proyecto básico en Unity se ha expandido para incluir varias funcionalidad
 
 1. Clonar este repositorio:
    ```bash
-   git clone <URL del repositorio>
+   git clone https://github.com/braianpipi/PracticeCS.git
