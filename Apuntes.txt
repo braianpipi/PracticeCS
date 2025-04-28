@@ -4,4 +4,192 @@ Clase 5  - Parte 1/2
 
 Optimizacion de Unity
 
+CUTSCENES 
+Escenas no interactivas que cuentan una parte de la historia mediante animaciones, cámaras y sonidos.
+Videos - Realtime
+
+Buenas prácticas:
+- Pre-cargar assets antes de la cutscene.
+- Usar animaciones livianas y optimizar efectos visuales.
+- Desactivar objetos no necesarios durante la cutscene.
+
+Herramientas útiles:
+- Timeline de Unity (para orquestar eventos de la cutscene).
+- Cinemachine (para manejar cámaras dinámicas).
+
+CHUNKS
+División de una escena en partes más pequeñas o "bloques" para optimizar el rendimiento.
+
+¿Para qué sirven?
+Permiten cargar y descargar dinámicamente partes de la escena según necesidad, reduciendo uso de memoria y carga de CPU/GPU.
+
+¿Cómo se implementan?
+Usando técnicas como Scene Loading Asíncrono (LoadSceneAsync)
+Additive Scenes (escenas que se cargan encima de la actual).
+
+Ejemplo simple: Un mapa grande dividido en zonas que se cargan sólo cuando el jugador se acerca.
+
+Conclusion 
+Chunks: División de escenas para optimizar carga/memoria.
+
+Cutscenes: Secuencias narrativas que deben ser optimizadas igual que el gameplay.
+
+¡¡¡¡¡¡¡¡¡¡¡¡[SceneManager.LoadSceneAsync]!!!!!!!!!
+Asociar luego*
+
+---------------------------------------------------------------------------------------
+	DEFINIR UN TARGET U OBJETIVO
+
+Es clave para la optimizacion el alcance del objeto donde se va a implementar el proyecto.
+Por eso definir si va a ser utilizado en PC, Dispositivo movil y su alcanze.
+Díspostivos: 
+Low End:
+Dispositivos de bajo rendimiento, con procesadores, memoria y gráficos limitados; ideales para juegos muy optimizados y simples.
+
+Mid Range:
+Dispositivos de rendimiento medio, capaces de correr juegos más complejos con gráficos moderados sin exigir todo el hardware.
+
+High End:
+Dispositivos de alto rendimiento, preparados para soportar juegos con gráficos avanzados, físicas complejas y mayores exigencias técnicas.
+
+	AUDIO
+
+Orden de prioridad : 
+1) SFX (efectos sonoros)
+2) Musica
+3) Ambiente
+
+Configuracion de la Musica:
+-Explicacion del inspector-
+Force to Mono: Convierte el audio a un solo canal (mono) para ahorrar espacio y mejorar compatibilidad.
+
+Load in Background: Permite que el audio se cargue en segundo plano sin frenar el rendimiento del juego.
+
+Ambisonic: Activa el soporte para audio 3D envolvente avanzado (ideal para VR y espacios 360°).
+
+!-
+Load Type: Define cuándo y cómo se carga el audio (por ejemplo, todo al iniciar o a medida que se necesita).
+-¡ 
+
+
+Preload Audio Data: Carga anticipadamente el audio en memoria al iniciar el juego para reproducirlo sin demoras.
+
+Compression Format: Establece el tipo de compresión del archivo de audio para equilibrar calidad y peso.
+
+Quality: Ajusta la fidelidad del audio comprimido, afectando su nitidez y tamaño.
+
+
+
+			LOAD TYPE - OPTIMIZACION CORRECTA
+
+Para musica o audios largos aca se coloca en STREAMING para configurar la carga del audio de unity y se optimice.
+--------------////
+Cuando ponés Load Type en Streaming, Unity no carga todo el archivo de audio completo en la memoria RAM, sino que lo va leyendo y reproduciendo directamente desde el disco a medida que se necesita.
+
+Esto optimiza porque:
+
+Ahorrás mucha memoria, especialmente con audios largos (como música de fondo o diálogos).
+
+Evitás cortes o lags que pasarían si intentara cargar un archivo gigante de golpe.
+
+Dejas más RAM libre para físicas, gráficos, scripts, etc.
+/////----------------------------
+Para cuando es necesario la iteracion constante como en clicks o movimientos, etc 
+se elige la opcion DECOMPRESS ON LOAD.-
+///////---------------------------
+Seleccionamos Decompress on Load para que el audio se descomprima completo en memoria apenas empieza el juego, y así pueda reproducirse instantáneamente cuando hagamos clic u ocurra un evento.
+
+¿Por qué?
+
+Si no lo descomprimimos antes, cada vez que se reproduce el sonido, Unity tendría que descomprimirlo en ese mismo momento, generando lags o retrasos.
+
+Con Decompress on Load, el audio ya está listo en RAM: suena rápido y sin trabas.
+////////-------------------------
+Para sonidos ambientales Compressed in Memory
+/////////--------------------------
+Usamos Compressed In Memory para sonidos ambientales porque así el audio ocupa poca memoria RAM, pero sigue estando rápido para reproducirse muchas veces o en bucle sin sobrecargar el sistema.
+
+¿Por qué?
+
+Los sonidos ambientales (viento, lluvia, pájaros, etc.) suelen ser largos o loopear mucho tiempo.
+
+Si los descomprimiéramos totalmente (Decompress on Load), llenaríamos la RAM innecesariamente.
+
+Con Compressed In Memory, el sonido sigue comprimido y se descomprime al vuelo sin que Unity tenga que ir a leerlo todo el tiempo del disco como en Streaming.
+
+//////---------------------------------------
+
+¡====================================================================================!
+En resumen:
+ *Efectos cortos y rápidos (clicks, golpes, UI, disparos) -> Decompress on Load.
+ *Música o audios largos -> Streaming o Compressed in Memory.
+ *Sonidos largos o de ambiente que no deben sobrecargar RAM -> Compressed In Memory.
+¡====================================================================================!
+
+
+-----------------------------------------------------------------------------------------------------------
+
+	OPTIMIZACION 3D CONFIGURACION
+	
+Flujo de trabajo organizado para garantizar la eficiencia y buenos resultados.Puede tener variaciones segun el objeto
+(or ejemplo un personaje vs. un mueble o en torno):
+
+	1) CONCEPT ART
+	2) MODELING
+	3) UV MAPPING/PROJECTION
+	4) TEXTURING
+	5) RIGGING 
+	6) ANIMATION
+	7) EXPORT
+
+1) Concept Art:
+Definir desde el inicio formas simples y siluetas claras ayuda a optimizar modelos futuros y evita retrabajos.
+Una imagen original echa por el artista conceptual - un collage de referencias visuales["Moodboard"]- Bocetos a mano o digitales con vistas especificas (por lo general son en pose T).
+
+2) Modeling:
+Usar la menor cantidad de polígonos posible manteniendo la forma permite que los modelos sean livianos y rápidos de renderizar.
+Se trabaja en un software de modelado como Blender, Maya, 3ds Max, ZBrush, etc
+Se crean las formas basicas y luego se agregan detallles
+Dependiendoe del uso el modelo puede ser low poly o high poly.
+
+3) UV Mapping/Projection:
+Hacer UVs ordenados y eficientes (sin espacios desperdiciados) maximiza la calidad de las texturas con menos resolución.
+Es el proceo de "desplegar" el modelo 3D para aplicarle texturas 2D [Se corta el modelo en secciones llamadas UV islands para que una textura 2d pueda proyectarse correctamente sobre el ]
+Es como abri una caja 3D y ponerla "plana" para poder pintarla.
+Un buen UV Map es calve para que las texturas no se vean estiradadas ni mal ubicadas.
+-Tambien hay UV Map para personajes-
+
+4) Texturing:
+Texturas compactas (bajas resoluciones, sin exceso de detalles innecesarios) y el uso de atlas de texturas reducen la carga de memoria.
+Aca se pintan los detalles del modelo: color, materiales, desgaste, sombras, brillos, etc.
+Se pueden usar texturas pintadas a mano, fotografias procesadas o generadores automaticos.
+Tambien se aplican mapas espaciales:
+-Normal Maps : Simulan relieve sin agregar geometria.
+-Roughness/Specular maps: controlan el brillo o la aspereza del material.
+-Ao maps(Ambient Occlusion): Sombras sueaves en zonas de contacto.
+HORA DE VIDEO explicacion rapida 1:00:00 sobre el uv map de blender (poco claro)
+
+5) Rigging:
+Crear esqueletos simples, con la menor cantidad de huesos necesaria, evita cálculos complejos de animación en tiempo real.
+Solo necesario si el modelo necesita animarse.
+Se le agrega huesos(bones) al modelo.
+Cada hueso controla una parte del modelo.
+Serealiza un proceso llamado "skinning", que vincula malla del modelo a los huesos.
+Esto permite que el modelo se pueda mover, deformar y animar correctamente.
+
+6) Animation:
+Animaciones optimizadas (curvas suaves, poca cantidad de keyframes) hacen que el sistema de animaciones consuma menos CPU.
+Si el modelo requiere movimiento, aqui se crean las animaciones.
+Pueden ser animaciones simples(caminar, correr, atacar, idle)-
+Tambien puede ser ciclos complejos dependiendo del uso.
+Se hacen cuadro por cuadro (keyframes) o usando tecnicas como animacion procedural o motion capture.
+
+7) Export:
+Exportar en formatos ligeros (como FBX) y asegurarse de limpiar datos inútiles (history, layers ocultos) mejora el tamaño final del proyecto.
+Una vez temrinado , el modelo debe ser exportado al formato correcto para el motor o herramienta donde se usara(por ejemplo, Unity, Unrea, WebGL, etc.)
+----Forrmatos comunes: .fbx, .obj, .glb, .gltf, .dae.---------
+Se define que incluir : animaciones , materiales , jerarquia de huesos, LODs, etc.
+Es clave verificar que el modelo se vea igual en el motor final y no presente errores de escalado, rotacion o materiales faltantes.
+
+Usualmente se usan .fbx o .obj -
 
