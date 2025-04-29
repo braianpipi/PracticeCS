@@ -1,0 +1,215 @@
+Apuntes 
+
+Clase 6 - Parte 2/2
+
+	< OPTIMIZACION >
+
+	POLYCOUNT
+
+Cuantos mas poligonos tenga un modelo, mas carga tendra la GPU.
+Low poly no significa mal diseño, sino diseño eficiente.
+El "polycounte" es la cantidad de poligonos (triangulos o caras) que componen un modelo 3D.
+En optimizacion, controlar el "polycount" es clave para asegurar que los modelos sean livianos y rapidos de renderizar,
+especialmente en dispositivos de baja o media gama.
+
+Desde la interfaz de Unitt .> Shading Modes en Unity:
+
+Shaded: muestra objetos con materiales, luces y sombras aplicadas (vista final).
+
+Wireframe: muestra solo las líneas de los polígonos (ideal para ver y optimizar geometría).
+
+Shaded Wireframe: combina materiales + líneas de polígonos (útil para ajustar modelado y texturas).
+
+Optimización:
+
+Wireframe ayuda a detectar modelos con demasiados polígonos.
+
+Shaded Wireframe ayuda a equilibrar calidad visual vs cantidad de polígonos.
+----------------------------------------------------------------------------------------------------------------
+		TEXTURA 
+
+	¡¡Texturas Base - Albedo!!
+Es la textura principal que define el color y detalles visibles del objeto sin efectos de luz (sin sombras ni brillos).
+En Unity, suele ir en el slot "Albedo" del material.
+
+	¡¡Texturas Normales!!
+Es una textura especial que simula relieves y detalles de superficie sin aumentar polígonos.
+Modifica la forma en que la luz rebota para dar apariencia 3D a superficies planas.
+
+	Textura AO (Ambient Occlusion):
+Es una textura que oscurece zonas donde la luz natural llegaría menos (como esquinas o huecos), 
+simulando sombras suaves y dando más realismo sin usar cálculos pesados.
+
+	Textura Metallic:
+Define qué partes de un objeto se comportan como metal (reflejan mucho y no tienen color propio)
+y cuáles son dieléctricas (materiales comunes como plástico o madera).
+
+	Textura Height Map:
+Representa variaciones de altitud en la superficie de un modelo 3D,
+usando tonos de gris para simular detalles como montículos o hendiduras sin agregar geometría extra.
+Se usa para efectos de desplazamiento o para mejorar el detalle de superficies.
+
+
+|		OTRAS	 |
+
+	Diffuse Map:
+Contiene la información de color básica de un material.
+A menudo se le conoce como la textura base que define el color visible de un objeto.
+
+	Specular Map:
+Controla la brillo especular de una superficie, determinando qué partes del material son más reflectantes o brillantes, generalmente usando tonos de gris.
+
+	Roughness Map:
+Determina cuán suave o rugosa es una superficie. 
+Se utiliza en el modelo de materiales PBR (Physically Based Rendering) para simular cómo la luz interactúa con las superficies.
+
+	Emission Map:
+Hace que ciertas áreas de un modelo emitan luz, lo que es útil para efectos de iluminación, como luces en pantallas o faros de un vehículo.
+
+	Opacity Map:
+Controla la transparencia de un material.
+Usado en materiales como vidrio, agua o cualquier objeto que tenga partes transparentes o semi-transparentes.
+
+	Textura PBR
+Las texturas PBR (Physically Based Rendering) son un conjunto de texturas utilizadas en el renderizado basado en la física, que simulan cómo interactúan la luz y los materiales en un entorno 3D de manera más realista. En PBR, los materiales se definen por una serie de mapas (texturas) que representan las propiedades físicas del material, y suelen ser usadas en motores gráficos modernos como Unity, Unreal Engine, etc.
+
+Las principales texturas en un flujo de trabajo PBR son:
+
+Albedo (Base Color Map):
+
+Representa el color base del material sin ningún tipo de iluminación o sombras. Es la textura principal que define el color de un objeto.
+
+Metallic Map:
+
+Indica qué partes del material son metálicas y cuáles no lo son. Los valores van de 0 a 1, donde 0 significa que no es metálico y 1 significa que es totalmente metálico.
+
+Roughness Map:
+
+Controla cuán suave o rugosa es la superficie de un material. Un valor bajo indica una superficie muy suave y reflectante, mientras que un valor alto indica una superficie más rugosa y menos reflectante.
+
+Normal Map:
+
+Simula detalles de superficie más finos sin agregar geometría adicional. Se utiliza para simular pequeñas variaciones en la superficie, como arrugas o hendiduras.
+
+Ambient Occlusion Map (AO Map):
+
+Proporciona sombras suaves en áreas de baja exposición a la luz, como grietas y hendiduras. Mejora la profundidad visual de un material al oscurecer las áreas que están más alejadas de las fuentes de luz.
+
+Height Map (Displacement Map):
+
+Define variaciones en la altura de la superficie, lo que permite que la geometría se despliegue de manera más realista. No solo simula detalles visuales como el normal map, sino que altera físicamente la superficie.
+
+Emissive Map:
+
+Hace que el material "emita" luz. Es útil para crear materiales como luces de neón o pantallas brillantes que deben iluminar el entorno a su alrededor.
+
+Specular Map (en algunos flujos de trabajo PBR, alternativo a Metalness):
+
+Define la intensidad de la reflexión especular, similar al Metallic, pero en lugar de usar una propiedad binaria (metálico/no metálico), permite definir los niveles de reflexión en superficies no metálicas.
+.........................................................
+	¡¡NORMALES!
+
+Hago un duplicado de la textura con [Ctrl+D] en la configuracion de Unity Inspector -> 
+Textura Type -> Normal map.
+Create from Grayscale -> tildar.
+Bumpiness -> varia valores a gusto.
+Filtering -> Smoth para que sea todo mas suavizado.
+Sirve para ir regulando los blancos y negros.
+
+Para poder utilizar esta textura en el inspector en la parte de 
+Surface Inputs -> Base Map
+				  Metallic Map 
+				  Smoothness
+				  Source
+				  Normal Map -> Arrastra el Normal map a este cuadrado.
+
+Inspector UNITY -> Click sobre imagen -> Parte inferior -> Default (Aca estan las formas de compresion)
+En esta parte variar el Max Size para que no pesen tanto las fotos .
+
+Tambien en Detail inputs -> Tilling -> variar cantidad de veces que aparece la textura ayuda a la optimizacion.
+
+...................................................................................................
+LOD significa Level of Detail (Nivel de Detalle).
+
+Es una técnica de optimización que consiste en usar versiones diferentes de un mismo modelo 3D, con distinta cantidad de polígonos, dependiendo de la distancia de la cámara:
+
+Cerca de la cámara -> se usa el modelo más detallado (más polígonos, más calidad).
+
+Lejos de la cámara -> se usa un modelo simplificado (menos polígonos, mejor rendimiento).
+
+Muy lejos -> a veces se reemplaza por un simple plano o incluso se oculta.
+
+¿Para qué sirve?
+Para ahorrar recursos (CPU y GPU) y mejorar el rendimiento, sobre todo en escenas grandes o con muchos objetos.
+
+Cull en gráficos 3D significa "descartar" o "no dibujar" ciertos polígonos o modelos para ahorrar procesamiento.
+
+En Unity y otros motores, hay varios tipos:
+
+Backface Culling: no se dibujan las caras traseras de los objetos (las que no ves).
+
+Frustum Culling: no se dibujan los objetos que están fuera de la vista de la cámara.
+
+Occlusion Culling: no se dibujan los objetos que están tapados por otros (ocultos).
+
+****LOD ****
+
+[Minuto 49:15]Se crea un Objeto con varios objetos adentro, en add component -> LOD Group 
+-> Aca indica por cada grupo que porcentaje de visualidad va a tener y cuando comienza a aparecer el siguiente objeto.
+Cada vez disminuyendo calidad para ganar memoria.
+En el inspector hay una barra regulable para el porcentaje de vision.
+
+En el Inspector -> LOD Group -> Fade Mode:
+
+None:
+-> No hay desvanecimiento suave. 
+El cambio de un modelo LOD a otro es instantáneo cuando se alcanza el umbral de distancia.
+
+Cross Fade:
+-> Mezcla suavemente dos niveles de LOD durante el cambio de distancia, haciendo que la transición sea menos brusca y más visualmente fluida.
+
+SpeedTree:
+-> Optimizado para árboles hechos con SpeedTree.
+Usa una técnica especial de fade pensada para vegetación y foliage, donde las hojas desaparecen de manera más natural y gradual.
+
+¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡
+LAS TEXTURAS DEBEN TENER DIMENSIONES EN MULTIPLOS DE 2;
+
+AGRUPAR TEXTURAS EN ClASES SI MULTIPLES OBJETOS COMPARTEN MATERIALES ; ESTO REDUCE LOS DRAWS CALLS*;
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+*DrawCalls es una orden que el CPU le da a la GPU para dibujar un objeto en pantalla.
+
+¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡
+
+	STATIC OBJECTS 
+
+Si un objeto no se movera, debe marcarse como Static.
+Esto permite a Unity optimizar el rendimiento en varias areas como :
+	Iluminacion (baking de luces)
+	Oclusion de camara (occlusion culling)
+	Batching estatico (combinar objetos para reducir draw calls)
+
+Recomendacion: Usa Static solo si estas 100% seguro de que el objeto no se movera durante la ejecucion.
+
+Ejemplos: columnas, paredes, piso, edificios, arboles.
+
+Hacemos click en el objeto -> Inpector arriba a la izquierda hay que tildar un cuadradito que dice STATIC
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	Elementos Lejanos
+
+Podemos usar imagenes para fondo, decoracion o estructuras de paisajes.
+	Usa versiones ultra optmizadas con baja resolucion y bajos poligonos.
+	Aplica texturas mas simples o incluso bakeadas (con iluminacion y sombras pre-renderizadas)
+
+Ej: Montañas al fondo pueden ser solo un plano con una textura lejana en lugar de un modelo detallado.
+
+La imagen se arrastra a la escena.
+Podemos colocar un plano en forma vertical porque se ve de un lado y del otro no.
+Al ser una imagen que tiene fondo transparante en el inspector se tilda la parte de
+sRGB(color texture) -> Alpha is Trasnparency     (para que respete la trasnparencia de la imagen)
+
+-------------------------------------------------------------------------------------------------------
+
