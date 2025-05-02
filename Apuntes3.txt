@@ -1,0 +1,240 @@
+Apuntes 
+
+Clase 7
+
+	< OPTIMIZACION CON MODELOS 3D >
+
+	ILUMINACION
+
+Es la clave para crear atmosferas, resaltar elementos importantes y mejorar la experiencia de juego.
+Ademas, influye directamente en la optimizacion : una mala configuracion puede afectar el rendimiento del juego.
+Usar tecnicas eficientes como ILUMINACION HORNEADA o luces en TIEMPO REAL ayuda a mantener un buen balance entre calidad visual y rendimiento.
+
+
+	Directional Light
+
+-Simula una fuente de luz lejana como el sol.
+-Luz paralela que afecta toda la escena sin importar la posicion.
+-Ideal para exteriores.
+-Genera sombras largas y suaves.
+-Muy util cuando trabajas con iluminacion global.
+
+No importa la posicion, Afecta toda la escensa, se le puede cambiar la rotacion.
+El cielo es el skybox. Se le puede agregar filtros y temperatura.
+Esta luz genera sombras 
+En el Inspector ->
+
+	-Shadows-
+	[Shadows] : [No Shadows] (No muestra sombras - Aumenta el nivel de optmizacion pero pierde realismo)
+	[Shadows] : [Hard Shadows] (Genera sombras duras, se muestran todos los pixeles del objeto 3D)
+	[Shadows] : [Soft Shadows] (Genera sombras difuminadas, ¡RECOMENDADA!)
+
+	-Lighting-
+	[Shadow Resolution Tiers] : [] (Esto va por distancias)
+	[Cookie Atrlas Resolution] : []
+
+(Aca estan las opciones de cambiar las resoluciones de las sombras)
+Barra Superior Unity -> Edit -> Project Settings -> Quality -> [Shadowmask Mode] : [Distance Shadowmask] (Aca podemos aplicar la distancia de alcance de vision de los objetos que generan sombra)
+
+
+
+	Point Light
+
+-Simula una bombilla o una fuente de luz esferica.
+-Emite luz en todas direcciones desde un punto.
+-Tiene un rango que determina hasta donde llega la luz.
+-Ideal para interiores, lamparas, antorchas.
+
+Ilumina en todas las direcciones, es una iluminacion circular. 
+
+	Inspector ->
+	-Emission-
+	[Intensity] : [] (Varia la intensidad de la luz)
+	[Range] : [] (Varia el rango de alcance de la luz)
+	[Color] : [] (Color de la luz)
+
+Es muy comun agregarle un Point Light al Player dado que le hace un seguimiento y puede ir iluminando el espacio que va recorriendo a la vez.
+
+	Spot Light
+
+-Simula un foco o linterna.
+-Emite luz en forma de cono.
+-Tiene control de angulo interior/exterior y rango.
+-Muy util para resaltar objetos o crear efectos dramaticos.
+
+Puede generar sombras.
+Pueden usar cookies : son imagenes que le dan forma puntuales a como la luz esta siendo reflejada.
+
+
+'Min : 26:00'
+ Se guarda la imagen en carpeta de texturas -> 
+	INSPECTOR -> [Textura type] : [Cookie]
+				 [Alpha is Transparency] : [Tildado]
+				 [Alpha Source] : [From Gray Scale]
+				 -> Apply.
+
+ir al Spot Light -> Arrastras cookie a [Cookie] : [Arrastras al cuadrado izquierdo del texto "Cookie"]
+
+
+	Area Light
+
+-Simula luz que proviene de una superficie rectangular.
+-Solo funciona con bakeo de luces (no se ve en tiempo real).
+-Ideal para luces grandes y suaves como paneles de luz, ventanas iluminadas, pantallas.
+-Requiere estar en modo Baked.
+
+--------------------------------------------------------------------
+¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡
+	 ¡ MODO DE LUCES !
+
+1_ REALTIME
+	
+	-Se calculan en tiempo REAL.
+	-Mas costosos en rendmineto !!.
+	-Utiles para luces que se muevan o cambian constantemente.
+
+2_ BAKED 
+	
+	-Se precalculan y no cambian en tiempo real.
+	-Perfectas para luces estaticas como faroles o iluminacion ambiental.
+	-No generan sombras dinamicas.
+
+Se hace al final para que tome texturas o imagenes para ganar rendimiento .Estas quedan fijas una vez bakeadas es decir ya no importa el directional light.
+Se recomiendo hacerlo con todos los objetos que sean Statics.
+Esta textura se aplica sobre cualquier objeto. Es como si tomara una fota y mantienen las sombras siempre en el mismo lugar. 
+
+
+3_ MIXED
+
+	-Combinan baked para objetos estaticos y realtime para dinamicos.
+	-Muy util para escenas donde el entorno no se mueve, pero los personajes si .
+
+Sirve para ponerle a los objetos statics el baked y para los que tienen movimineto puedan tener la sombra que los siga. 
+Es la mas recomendada. 
+
+
+-Unity solo puede trabajar con un limite de luces en tiempo real-
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+	CONFIGURACION	
+
+1_ Configurar el modelo 3D para que acepte el bakeo de luces
+
+2_ Configurar las luces 
+
+3_ Hacer todos los elementos que van a ser parte del bakeo ponerlos static
+
+4_Esperar el renderizado.
+
+
+1 - Se seleccionan todos los modelos a estar statics (En carpeta Meshes?), en el Inspector -> Model -> Generate LightMap UV [Tildarlo] -> Apply.
+
+2 - Configurar la luz por separado.
+
+Primero la luz de Directional Light -> Inspector -> -General- -> [Mode] : [Baked].
+
+Luego la Luz Point Light -> Inspector -> -General - -> [Mode] : [Baked].
+
+Esto hacerlo con todas las luces del proyecto.
+
+3 - Si todos los elementos estan dentro de Map -> Inspector -> [Static] : [Tildarlo].
+En la ventana emergente va a consultar si heredan esta propiedad todos los objetos que estan adentro de map -> [Yes].
+
+4- Aca le decimos como va a encarar el proyecto 
+
+Barra superior Unity -> Window -> Rendering -> Lighting -> (Se abre una ventana emergente) -> Scene -Lighting Settings- -> [Lighting Setting Asset] : [] : [New]
+
+Aca se cambia la resolucion de todo.
+
+	-> [Generate Lighting] (Paso final y esperar).
+
+
+Para saber si el baked salio con exitos, nos fijamos en la escena de desactivar todas las luces y deberia quedar como las mismas sombras el mapa.
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+		--UI--
+
+UI significa User Interface o Interfaz de Usuario-
+En un videojuego, la UI es todo lo que el jugador VE y USA para interactuar con el juego, fuera del control directo del personaje.
+
+	Incluye : 
+		- Menus (inicio, pausa, configuracion, inventario)-
+		- Barras de vida, energia, etc. - 
+		- Contadores (de monedas, balas, tiempo, etc.)-
+		- Mapas o minimaps. -
+		- Indicadores de mision o tutoriales en pantalla.-
+		- Botones virtuales (en juegos moviles).-
+
+
+	¿Para que sirve?
+	 .Para dar informacion util al jugador.
+	 .Para permitir interaccion con el sistema de juego.
+	 .Para guiar la experiencia de juego de manera mas intuitiva.
+
+
+
+-------------------------------------------------------------------
+
+	- HUD "HEADS UP DISPLAY" -
+
+Es una parte de UI, especificamente la que siempre esta visible en pantalla mientras juegas, mostrando informacion en tiempo real.
+
+UI -> es toda la interfaz del juego que el jugador usa o ve. Incluye el HUD, menus, pantallas de carga, inventarios, etc.
+HUD -> Solo la parte de la UI que aparece durate el gameplay para mostrar info rapida y constante.
+
+--------------------------------------------------------------------
+		-TIPOS DE UI-
+
+	DIEGETICAS
+
+Se trata de un tipo de interfaz que peude ser vista, escuchada y tocada por los personajes del juego. 
+Forman parte de la propia narrativa y suelen ser integrales e inmersivas.
+Es una mezcla entre la interaccion del personaje y la ui .Es la simulacion del que personaje es el que interactua con la UI.
+
+	NO DIEGETICOS
+
+Se trata de una interfaz en donde los elementos se muestran fuera del mundo del juego y solo son visibles y audibles para el jugador. 
+Usualmente aparecen como metricas de tiempo, putnos, daño, etc.
+Como ejemplo una barra de vida o cantidad de balas que quedan.
+No existen en el mundo virtual y son presentes para el usuario no para el player(personaje virutal).
+
+	ESPACIAl
+
+En este tipo de interfaz estamos en un punto medio de los anteriores conceptos. 
+En donde los elementos/objetos estan integrados en el espacio del juego pero no en la historia y los personajes no son conscientes de ellos.
+Ejemplo podria ser la lines o flechas de guia en una carrera que marcan el camino.
+Como un mensaje del simulador asi el usuario pero que no interviene el player(personaje virtual)
+
+	META
+
+Son elementos que si bien no existen en el universo del personaje, buscan ser inmersivos y que el usuario "sienta" lo mismo que ellos.
+Por ejemplo cuando a traves de un efecto disfuminado o borroso se busca que el usuario empatice con la experiencia del player(personaje virtual).
+--------------------------------------------------------------------------------
+
+			CANVAS
+
+En Unity un Canvas se asemeja a un contenedor el cual incluye y renderiza o muestra todos los elementos de la interfaz de usuario.
+El motor, nos ofrece tres tipos:
+		_Screen Space Overlay
+		_Screen Space Camera
+		_World Space
+
+
+	Esto crea el canvas en la escena o Herarchy.
+
+		Click derecho sobre "Herarchy" -> UI -> Canvas
+	
+Dentro del canvas del Herarchy o directamente ejecutar esta secuencia y crea el canvas directamente como elemento padre
+
+		Canvas -> Click derecho -> UI -> Image 
+
+		Inspector -> -Image- -> [Source Image] : [Aca arrastro la imagen que quiero] (Por ejemplo un crosshair)
+
+		El Canva siempre se ve por encima de la camara.
+
+
+	

@@ -1,8 +1,8 @@
 Apuntes
 
-Clase 5  - Parte 1/2
+Clase 5  
 
-Optimizacion de Unity
+	Optimizacion de Unity
 
 CUTSCENES 
 Escenas no interactivas que cuentan una parte de la historia mediante animaciones, cámaras y sonidos.

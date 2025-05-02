@@ -1,6 +1,6 @@
 Apuntes 
 
-Clase 6 - Parte 2/2
+Clase 6 
 
 	< OPTIMIZACION >
 
@@ -207,9 +207,39 @@ Podemos usar imagenes para fondo, decoracion o estructuras de paisajes.
 Ej: Montañas al fondo pueden ser solo un plano con una textura lejana en lugar de un modelo detallado.
 
 La imagen se arrastra a la escena.
-Podemos colocar un plano en forma vertical porque se ve de un lado y del otro no.
+Podemos colocar un plano en forma vertical porque se ve de un lado y del otro no.Aca colocar la imagen sobre el plano.
+
 Al ser una imagen que tiene fondo transparante en el inspector se tilda la parte de
 sRGB(color texture) -> Alpha is Trasnparency     (para que respete la trasnparencia de la imagen)
 
 -------------------------------------------------------------------------------------------------------
 
+		¡---OCLUSSION - FRUSTUM CULLING---!
+
+Occlusion Culling
+Tecnica que evita renderizar objetos que estan ocultos detras de otros y que no son visibles desde la camara.
+Ahorra recursos porque no procesa geometria no visible.
+
+Frustum Culling
+Tecnica que descarta objetos fuera del campo de vision (fuera del "cono" o piramide de vision de la camara).
+Solo renderiza lo que esta dentro del frustum(AREA VISIBLE).
+
+
+PASOS DE CONFIGURACION:
+1) Poner todos los objetos en static
+2)Barra superior -> Windows -> Rendering -> Occlusion Culling 
+Se abre en el inspector :
+[Occluder Static] [Tildado] (Este es el objeto que puede tapar a otros)
+[Occludee Static] [Tildado] (El objeto que puede ser tapados por otros objetos)
+-> BAKE 
+
+Occluder = bloquea la vista.
+
+Occludee = puede ser bloqueado.
+
+En la escena se crea un Occluion Data que son los datos relacion con el Occlussion Culling.
+
+Si se desactiva las luces influye mejor en el resultado de renderizado visualmente:
+Inspector - Directional Light
+Emission -> Intensity -> [0]
+A la camara principal se le agrega una Luz, una Spotlight con intensidad y rango (Intensity y Range).
