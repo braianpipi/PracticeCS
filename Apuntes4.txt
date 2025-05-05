@@ -1,0 +1,140 @@
+Apuntes 
+
+Clase 8
+
+	< OPTIMIZACION CON MODELOS 3D >
+
+		CANVAS	
+
+En Unity un Canvas se asemeja a un contenedor el cual incluye y renderiza todos los elementos de la interfaz de usuario.
+El motor, nos ofrece tres tipos :
+	*Screen Space Overlay
+	*Screen Space Camera
+	*World Space
+
+ 
+ Screen Space Overlay
+
+La UI es renderizada y escalada de acuerdo al tamaño de la pantalla incluso si no hay camara.
+Es el canvas que viene por defecto en Unity, se ven en el frente de la pantalla.
+Queda por delante de los objetos que pueda lllegar a ver. 
+Si tuvieramos que declarar posicionoes basandonos en un fondo de tres pliegues este ocuparia el mas cercado a la pantalla.
+-.Funciona con un sistema de capas, como lo hace photoshop.- 
+
+ Screen Space Camera
+
+ Sus objetos son renderizados como si estuvieran dibujados en un plano distante frente a la camara.
+ Solo funcionan como si estuvieran dibujados en un plano distante frente a la camara.
+ Si tuvieramos que declarar posicionoes basandonos en un fondo de tres pliegues este ocuparia el mas lejano a la pantalla.
+ .-Funciona como una imagen de fondo, en el horizonte.Simula un fondo de pantalla.- 
+ World Space
+
+ La UI es dibujada como si fuese parte del mundo con el cual interactuamos y peude estar orientado de cualquier forma.
+ Este tipo de canvas suele ser utilizado en juegos de realidad virtual.
+ Si tuvieramos que declarar posicionoes basandonos en un fondo de tres pliegues este ocuparia el intemredio a la pantalla.Es decir
+ es como que hace el efecto de formar parte de la realidad puede ser atravesado si es necesario.-
+
+ *Motion sickness (mareo por movimiento) es una sensación de náuseas, vértigo o malestar que ocurre cuando el cerebro recibe señales contradictorias de los sentidos: 
+ por ejemplo, ves movimiento en la pantalla (vista), pero tu cuerpo no siente movimiento físico (oído interno y equilibrio) 
+
+ --EventSystem: en Unity es el sistema que gestiona todos los eventos de entrada del usuario, como clics, toques, arrastres o navegación con teclado.----
+
+ 
+
+	SPRITE SHEET 
+
+ Usar spritesheets (varios elementos en una sola imagen) en la UI es mas eficiente que usar sprites individuales (una imagen por elemento),
+ porque reduce la cantidad de llamadas al GPU (draw calls). Al estar todo en una sola textura, el sistema puede dibujar varios elementos con una sola instruccion.
+ En cambio, usar sprites por separado puede generar mas llamadas, afectando el rendimiento.
+ Se utiliza varias imagenes para colocarlas en una sola. 
+ Se usa como banco de imagen pero en una sola imagen.
+
+ Esta se configura :-> Inspector -> [Texture Type] : [Sprite(2D and UI)] 
+									[Sprite Mode] : [Multiple]
+									-> Install 2D Sprite Package
+									Se abre una nueva ventana que es el editor de Sprites.
+									-> Seccion superior
+									Slices-> (Aca se puede elegir por grillas y colocar la medida que suponemos usar)(en automatico es lo aconsejable)
+									-> APPLY (arriba a la derecha)
+									->Cerrar
+									En la pantalla deberiamos ver la imagen del sprite con una flecha (adentro deberian estar el resto de las imagenes separadas)
+
+
+Tener en cuenta que !Los Sprites se cortan de manera cuadrada!
+
+	Canvas Scaler:
+	es un componente del Canvas en Unity que controla cómo se escala y adapta la interfaz gráfica (UI) a diferentes resoluciones de pantalla.
+	
+	Constant Pixel Size: mantiene el tamaño de los elementos en píxeles, sin importar la resolución (pueden verse chicos en pantallas grandes).
+
+	Scale With Screen Size: escala la UI proporcionalmente a la resolución base que definas (el más usado para apps y juegos adaptativos).
+
+	Constant Physical Size: adapta la UI según el tamaño físico de la pantalla (poco usado en general).
+
+	Inspector -> -Canvas Scaler- -> [UI Scale Mode] : [SCALE WITH SCREEN SIZE]  (RECOMENDADO SE AJUSTO AL TAMAÑO DE LA PANTALLA)
+	                                [Reference Resolution] : [X:1920 ] [Y:1080] (sirve para pantallas grandes, entonces todas las imagenes son grandes y se van achicando)
+									[Match] : [0,5] (tanto el ancho como el alto en 0,5 es decir a la mitad)/(Lo que hace esto que es todas las imagenes escalen)
+
+
+	PIVOT POINTS : 
+	son el punto de referencia o anclaje desde donde un objeto rota, escala o se posiciona en el espacio.
+	-Determinan desde dónde gira el objeto.
+	-Determinan qué punto permanece fijo si escalás o movés.
+	-Se representa como un pequeño "gizmo" en el modelo o sprite.
+
+			¡¡¡¡¡¡¡¡¡¡¡¡¡INSPECTOR -> -Rect Transform- -> APRETAR ALT + SHIFT a la vez -> elegir posicion !!!!!!!!!!!!!!!!!
+
+	Alt + shift para que queden alineados.
+	sin estos solo cambias el el anclaje pero no el pivot 
+
+	MIN: 0:58:00'
+
+Para hacer un submenu: puedo crear una imagen (image background), alt+shift (seleccionar el cuadrado de abajo a la izquierda , el que esta mas al borde)
+esto hace que ocupe toda la pantalla, le bajamos en el color la transparencia u opacidad.
+Se agrega una imagen mas (image top-background), repetimos los pasos anteriores.
+se le puede agregar un texto, etc, para centrarlo lo mismo de alt+shift para los pivots.
+
+Para que se puedan acomodar varias imagenes dentro de una imagen en el canvas: 
+	INSPECTOR -> Add Components -> Layout -
+	
+	-> Layout Element :Sirve para definir el tamaño y las restricciones de un objeto dentro de un sistema de layout
+	(por ejemplo dentro de un Grid o un Vertical Layout Group).
+	Permite establecer: mínimo, preferido y flexible en ancho y alto.
+
+	-> Grid Layout Group :Organiza los elementos en una cuadrícula (grilla): cada objeto hijo ocupa una celda del mismo tamaño.
+	Permite configurar espaciado, padding y tamaño de celda.
+	Muy útil para inventarios, galerías, tableros.
+
+	->Vertical Layout Group:Organiza los elementos en una columna vertical, uno debajo del otro.
+	Permite controlar el espaciado entre elementos, padding y alineación.
+	Ideal para listas de botones, menús o textos apilados.
+
+	-Todos estos funcionan solo si el objeto tiene hijos; no afectan al objeto en sí, sino cómo organiza a sus hijos.-
+
+	Para posicionar bien las imagenes -> Inspector -> -Horizontal Layout Group- -> [Child Alignment] : [Aca elegir la posicion deseada]
+														Use Child Scale [Tildado] [Width] - [Tildado] [Height] (aca Utiliza la escala de los hijos)
+													    -Padding- -> [] [] [] [] Left - Right - Top - Bottom (esto le da un padding respecto a las otras imagenes)
+
+Para poder obtener mayor dimension en la imagen donde se encuentran el resto de las imagenes, lo que podemos usar es un Scroll View.
+
+	Hierarchy -> Imagen contenedora -> Boton derecho -> UI -> Scroll view -> 
+
+	En el caso de que quiera scrolear solo de izquierda a derecha, elimino la vertical scrollbar en el Herarchy.
+
+	Viewport -> Content -> es como la dimension de la imagen real, no la que se ve solo en pantalla puede ser mas grande.
+
+	Herarchy -> Content -> Aca dentro van las imagenes
+
+	Content --> Inspector -> Add Component -> Horizontal Layout Group
+
+	Scroll View --> Inspector -> -Scroll Rect- -> [Horizontal] : [Tilde]
+												  [Vertical] : [Tilde]
+												  [Movement Type] : [Unrestricted] (El contenido se puede mover sin límites, incluso salir del área visible.)
+																	[Elastic] (efecto rebote o elastico)
+																	[Clamped] (El contenido nunca se mueve fuera de los límites; queda “clavado” en el área visible)
+
+¡¡¡¡Consejo !!!
+ En las imagenes que son solo estaticas y no tienen ninguna interaccion lo ideal seria colocar en el Inspector ->
+ -Image- -> [Raycast Target] : [Sin Tilde]
+
+ Tambien usar un CANVAS exclusivo para diferentes menues.
