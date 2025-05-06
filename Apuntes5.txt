@@ -1,0 +1,70 @@
+Apuntes 
+
+Clase 9
+
+	< OPTIMIZACION CON MODELOS 3D >
+	
+	
+Mapa : lo ideal para crear las paredes seria hacer un cubo y quedarse solo con una cara.
+Si bien el plano se redenriza de un solo lado, tiene mas poligonos que un cubo.
+El orden de optimizacion seria : Cara de cubo, Plano, Cubo.
+
+		SKYBOX
+
+Es un material que se utiliza en Unity para representar el fondo del cielo o el entorno en una escena 3D. 
+En lugar de tener un fondo plano, el skybox envuelve toda la escena, creando la ilusión de un horizonte distante.
+Cúbico o esférico: Se usa una serie de texturas en forma de cubo o una sola imagen que se mapea sobre una esfera que rodea la cámara.
+
+No interactúa: Es solo una imagen estática, pero da la sensación de un entorno 3D.
+
+Establece atmósfera: Los skyboxes son útiles para representar diferentes condiciones como cielo claro, nubes, noche, o incluso mundos alienígenas.
+
+El preestablecido por Unity al cambiar la rotacion funciona como la rotacion del sol.
+
+Para poder personalizarlo creamos un material.
+
+*SHADER*  es un pequeño programa que le dice a la tarjeta gráfica cómo procesar y renderizar los píxeles o vértices de un objeto en una escena 3D.
+
+Para configurarlo usamos Inspector -> Shader -> Skybox -> [6 lided]
+														  [Cubemap]
+														  [Panoramic]
+														  [Procedural]
+
+	[6 Sided] (Seis caras):
+
+Usa 6 texturas planas (una por cara del cubo).
+
+Ideal si tenés imágenes separadas para arriba, abajo, izquierda, derecha, adelante y atrás.
+
+Similar a un cubo gigante con imágenes pegadas.
+
+	[Cubemap]:
+
+Usa una sola textura en formato cubemap (mapa cúbico).
+
+Más eficiente y sin costuras visibles entre caras.
+
+Común para reflejos o cielos pre-renderizados.
+
+	[Panoramic]:
+
+Usa una imagen esférica (360°), como las fotos de Google Street View.
+
+Perfecto si querés usar una foto o render 360°.
+
+Envuelve la escena como una esfera.
+
+	[Procedural]:
+
+El cielo se genera dinámicamente por código, no es una imagen fija.
+
+Permite animar el sol, nubes, colores según la hora del día, etc.
+
+Ideal si buscás un cielo dinámico y ligero.
+ Resumen simple:
+Mejor rendimiento general: Cubemap
+Más ligera en memoria pura: Procedural
+Evitá 6 Sided salvo que sea necesario.
+
+Para colocar el skybox alcanza con arrastrarlo al cielo del mapa.
+MInuto '00:13'
